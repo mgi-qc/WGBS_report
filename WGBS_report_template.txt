@@ -1,0 +1,16 @@
+Data quality report for work order: ${WOID}
+
+The builds are now completed for this work order:
+Number of Samples in this work order: ${SAMPLE_NUMBER}
+Number of Models with succeeded builds: ${status}
+
+
+SEQUENCING_NOTE: https://confluence.ris.wustl.edu/pages/viewpage.action?spaceKey=AD&title=WorkOrder+${WOID}
+
+Link to the model group:
+
+https://spectacle.gsc.wustl.edu/model_groups/model_group_id/${MODEL_GROUP_ID}
+
+Attachment:
+Attached is the information pertaining to the builds.
+${TSV_LOCATION}
