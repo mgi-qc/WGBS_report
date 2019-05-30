@@ -63,27 +63,32 @@ for work_order in id_list:
         data_dict = csv.DictReader(rf, delimiter = '\t')
 
         for line in data_dict:
-            if line['status'] is 'Succeeded':
+            if line['status'] == 'Succeeded':
                 succeeded_count +=1
             sample_count +=1
 
-    model_group_id = subprocess.check_output(['genome', 'model-group', 'list', '-f', 'project.id={}'.format(work_order),
-                                              '--show', 'id', '--style=tsv', '--noheaders']).decode('utf-8')
+    if sample_count == 0:
+        print('No report generated for {} as no samples were found'.format(work_order))
+        sys.exit()
+    else:
+        model_group_id = subprocess.check_output(['genome', 'model-group', 'list', '-f', 'project.id={}'.format(work_order),
+                                                  '--show', 'id', '--style=tsv', '--noheaders']).decode('utf-8')
 
-    #Check for template
-    if not os.path.isfile('/gscmnt/gc2783/qc/GMSworkorders/reports/WGBS_report_template.txt'):
-       sys.exit('\nTemplate file not found.')
+        #Check for template
+        if not os.path.isfile('/gscmnt/gc2783/qc/GMSworkorders/reports/WGBS_report_template.txt'):
+           sys.exit('\nTemplate file not found.')
 
-    #Open and create template file using Template;
-    with open('/gscmnt/gc2783/qc/GMSworkorders/reports/WGBS_report_template.txt', 'r', encoding='utf-8') as fh:
-        template = fh.read()
-        template_file = Template(template)
+        #Open and create template file using Template;
+        with open('/gscmnt/gc2783/qc/GMSworkorders/reports/WGBS_report_template.txt', 'r', encoding='utf-8') as fh:
+            template = fh.read()
+            template_file = Template(template)
 
 
-        with open(outfile, 'w', encoding='utf-8') as fh:
+            with open(outfile, 'w', encoding='utf-8') as fh:
 
-            fh.write(template_file.substitute(WOID = work_order,
-                                              SAMPLE_NUMBER = sample_count,
-                                              status= succeeded_count,
-                                              MODEL_GROUP_ID = model_group_id,
-                                              TSV_LOCATION = tsv_file))
+                fh.write(template_file.substitute(WOID = work_order,
+                                                  SAMPLE_NUMBER = sample_count,
+                                                  status= succeeded_count,
+                                                  MODEL_GROUP_ID = model_group_id,
+                                                  TSV_LOCATION = tsv_file))
+                print('Report for {} generated'.format(work_order))
