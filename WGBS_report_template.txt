@@ -9,7 +9,7 @@ SEQUENCING_NOTE: https://confluence.ris.wustl.edu/pages/viewpage.action?spaceKey
 
 Link to the model group:
 
-https://spectacle.gsc.wustl.edu/model_groups/model_group_id/${MODEL_GROUP_ID}
+https://spectacle.gsc.wustl.edu/model_groups/${MODEL_GROUP_ID}
 
 Attachment:
 Attached is the information pertaining to the builds.
